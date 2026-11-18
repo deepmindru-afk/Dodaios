@@ -55,6 +55,20 @@ export interface RevealStep {
   target: RevealTarget;
   /** What the agent is doing in this step, shown as the status ("Adding the totals"). */
   label?: string;
+  /**
+   * A type's own motion for this step. Called when the step's turn comes, with
+   * the resolved elements; `instant` is true when motion is off (reduced motion,
+   * or the person acted), then nothing should animate.
+   */
+  enter?: (elements: Element[], instant: boolean) => void;
+  /**
+   * The elements are already on screen (an element that moves, a thumbnail
+   * that glides): the player does not hide or fade them, only the frame and
+   * the cursor visit, and `enter` runs.
+   */
+  visible?: boolean;
+  /** The frame sits on this step's elements alone instead of growing around everything written. */
+  solo?: boolean;
 }
 
 export interface RevealAdapter<S = unknown> {

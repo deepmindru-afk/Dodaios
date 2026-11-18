@@ -91,7 +91,17 @@ asks once more after `settleWaitMs`.
 | `{ changed: true }` | What the core saw change in the body's DOM for this batch, one step per changed block, in reading order. This is the default. |
 | `{ blocks: true }` | The body's top-level blocks, in reading order. The default when the editor opened mid-build. |
 
-A step whose target is not found is skipped. To use `path` targets, add
+A step whose target is not found is skipped.
+
+A step may also carry its own motion. These fields are optional and additive:
+
+| Field | Meaning |
+|-------|---------|
+| `enter(elements, instant)` | Runs when the step's turn comes (a caret write-in, a skeleton, a glide). `instant` is true when motion is off. |
+| `visible` | The elements are already on screen (a moved element, a thumbnail that glides). The player does not hide or fade them; the frame and cursor visit them. |
+| `solo` | The frame sits on this step's elements alone instead of growing around everything written so far. |
+
+An `{ element }` target may sit inside a shadow root of the body (the slide canvas does). To use `path` targets, add
 `data-live-path="<JSON Pointer>"` to the elements that draw spec items.
 
 ### Where each type plugs in
